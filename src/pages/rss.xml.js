@@ -6,6 +6,8 @@ export async function GET(context) {
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
   );
 
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
   return rss({
     title: 'Praveen Kumar Yennam — Blog',
     description: 'Occasional notes on software development from Praveen Kumar Yennam.',
@@ -14,7 +16,7 @@ export async function GET(context) {
       title: post.data.title,
       description: post.data.description,
       pubDate: post.data.pubDate,
-      link: `/blog/${post.id}/`,
+      link: `${base}/blog/${post.id}/`,
     })),
   });
 }

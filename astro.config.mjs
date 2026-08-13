@@ -5,11 +5,9 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
   // Dev server: use the port assigned by the environment when present.
   server: { port: process.env.PORT ? Number(process.env.PORT) : 4321 },
-  // For GitHub Pages: set this to your GitHub Pages URL before deploying.
-  site: 'https://YOUR-GITHUB-USERNAME.github.io',
-  // If the site will live at https://<username>.github.io/<repo-name>/
-  // (a "project page" rather than a user page), also uncomment this:
-  // base: '/<repo-name>',
+  // GitHub Pages project site: https://yennam-praveen.github.io/Portfolio/
+  site: 'https://yennam-praveen.github.io',
+  base: '/Portfolio',
   markdown: {
     shikiConfig: {
       // Emit both themes; global.css switches them via the data-theme attribute.
