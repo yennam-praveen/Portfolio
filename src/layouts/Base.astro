@@ -1,0 +1,92 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Personal site and blog of Praveen Kumar Yennam, software developer.' } = Astro.props;
+const currentPath = Astro.url.pathname;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const isBlog = currentPath.startsWith(`${base}/blog`);
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" href={`${base}/favicon.svg`} type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title="Praveen Kumar Yennam — Blog" href={`${base}/rss.xml`} />
+    <title>{title}</title>
+    <script is:inline>
+      // Apply the saved theme before first paint to avoid a flash.
+      (() => {
+        const saved = localStorage.getItem('theme');
+        const theme = saved ?? (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="logo" href={`${base}/`}>praveen<span class="dot">.</span>dev</a>
+        <nav class="site-nav">
+          <a href={`${base}/`} aria-current={!isBlog ? 'page' : undefined}>Home</a>
+          <a href={`${base}/#projects`}>Projects</a>
+          <a href={`${base}/blog/`} aria-current={isBlog ? 'page' : undefined}>Blog</a>
+          <button class="theme-toggle" type="button" aria-label="Switch theme">
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="4" />
+              <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32 1.41-1.41" />
+            </svg>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <span>© {new Date().getFullYear()} Praveen Kumar Yennam</span>
+        <div class="footer-links">
+          <a href="https://www.linkedin.com/in/praveen-kumar-yennam-52167910" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://github.com/YOUR-GITHUB" target="_blank" rel="noopener">GitHub</a>
+          <a href="mailto:praveen@bioculture-mauritius.com">Email</a>
+          <a href={`${base}/rss.xml`}>RSS</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Reveal elements as they scroll into view.
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          }
+        },
+        { threshold: 0.15 }
+      );
+      document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+      // Theme toggle: flip the data-theme attribute and remember the choice.
+      document.querySelector('.theme-toggle')?.addEventListener('click', () => {
+        const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+        document.documentElement.dataset.theme = next;
+        localStorage.setItem('theme', next);
+      });
+    </script>
+  </body>
+</html>

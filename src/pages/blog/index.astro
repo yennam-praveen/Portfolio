@@ -1,0 +1,100 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { readingTime } from '../../lib/reading-time';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<Base title="Blog — Praveen Kumar Yennam">
+  <section class="container blog-page">
+    <h1 class="section-title reveal visible">The <span class="accent">blog</span></h1>
+    <p class="muted intro reveal visible reveal-delay-1">
+      Occasional notes on software development — written when there's something
+      worth writing about.
+    </p>
+
+    <div class="post-list">
+      {posts.map((post, i) => (
+        <a class={`card post-row reveal reveal-delay-${Math.min(i, 3)}`} href={`${base}/blog/${post.id}/`}>
+          <div>
+            <h2>{post.data.title}</h2>
+            <p class="muted">{post.data.description}</p>
+            {post.data.tags.length > 0 && (
+              <ul class="chip-list" aria-label="Tags">
+                {post.data.tags.map((tag) => (
+                  <li class="chip">{tag}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+          <div class="post-meta muted">
+            <time datetime={post.data.pubDate.toISOString()}>
+              {post.data.pubDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+            </time>
+            <span>{readingTime(post.body)} min read</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .blog-page {
+    padding-top: 5rem;
+  }
+
+  .intro {
+    max-width: 34rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .post-list {
+    display: grid;
+    gap: 1.25rem;
+    max-width: 52rem;
+  }
+
+  .post-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    align-items: baseline;
+    color: var(--text);
+  }
+
+  .post-row:hover {
+    text-decoration: none;
+  }
+
+  .post-row h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .post-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.15rem;
+    white-space: nowrap;
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 40rem) {
+    .post-row {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .post-meta {
+      flex-direction: row;
+      gap: 0.75rem;
+      align-items: baseline;
+    }
+  }
+</style>

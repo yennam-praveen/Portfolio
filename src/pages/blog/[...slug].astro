@@ -1,0 +1,113 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+import { readingTime } from '../../lib/reading-time';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<Base title={`${post.data.title} — Praveen Kumar Yennam`} description={post.data.description}>
+  <article class="container post">
+    <a class="back muted" href={`${base}/blog/`}>&larr; All posts</a>
+    <h1>{post.data.title}</h1>
+    <p class="post-meta muted">
+      <time datetime={post.data.pubDate.toISOString()}>
+        {post.data.pubDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+      </time>
+      <span aria-hidden="true">·</span>
+      <span>{readingTime(post.body)} min read</span>
+    </p>
+    {post.data.tags.length > 0 && (
+      <ul class="chip-list" aria-label="Tags">
+        {post.data.tags.map((tag) => (
+          <li class="chip">{tag}</li>
+        ))}
+      </ul>
+    )}
+    <div class="post-body">
+      <Content />
+    </div>
+  </article>
+</Base>
+
+<style>
+  .post {
+    max-width: 44rem;
+    padding-top: 5rem;
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+  }
+
+  .post h1 {
+    font-size: clamp(1.9rem, 4vw, 2.8rem);
+    margin-bottom: 0.75rem;
+  }
+
+  .post-meta {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .post-body {
+    margin-top: 2.5rem;
+  }
+
+  .post-body :global(h2) {
+    margin: 2.25rem 0 0.75rem;
+    font-size: 1.4rem;
+  }
+
+  .post-body :global(p) {
+    margin-bottom: 1.1rem;
+  }
+
+  .post-body :global(ul),
+  .post-body :global(ol) {
+    margin: 0 0 1.1rem 1.4rem;
+  }
+
+  .post-body :global(code) {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+  }
+
+  .post-body :global(pre) {
+    background: var(--surface) !important;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    overflow-x: auto;
+    margin-bottom: 1.25rem;
+  }
+
+  .post-body :global(pre code) {
+    background: none;
+    border: none;
+    padding: 0;
+  }
+
+  .post-body :global(blockquote) {
+    border-left: 3px solid var(--accent);
+    padding-left: 1rem;
+    color: var(--text-muted);
+    margin-bottom: 1.1rem;
+  }
+</style>
