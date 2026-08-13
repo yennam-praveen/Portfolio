@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<Base title="Page not found — Praveen Kumar Yennam" description="This page doesn't exist. Head back to the home page or the blog.">
+  <section class="container not-found">
+    <p class="eyebrow">404</p>
+    <h1>This page drifted <span class="accent-word">off course</span></h1>
+    <p class="muted">
+      The address doesn't match anything here. It may have moved, or the link
+      may be mistyped.
+    </p>
+    <div class="actions">
+      <a class="btn btn-primary" href={`${base}/`}>Back to home</a>
+      <a class="btn btn-ghost" href={`${base}/blog/`}>Browse the blog</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .not-found {
+    padding: 9rem 0 4rem;
+    max-width: 38rem;
+  }
+
+  .not-found h1 {
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    margin: 1rem 0 1.25rem;
+  }
+
+  .not-found .muted {
+    margin-bottom: 2.25rem;
+  }
+
+  .actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+</style>

@@ -1,15 +1,23 @@
 ---
+import '@fontsource-variable/outfit';
+import '@fontsource-variable/fraunces/opsz.css';
+import '@fontsource-variable/fraunces/opsz-italic.css';
 import '../styles/global.css';
 
 interface Props {
   title: string;
   description?: string;
+  /** Set for blog posts: switches Open Graph to article and emits publish date. */
+  pubDate?: Date;
 }
 
-const { title, description = 'Personal site and blog of Praveen Kumar Yennam, software developer.' } = Astro.props;
+const { title, description = 'Personal site and blog of Praveen Kumar Yennam, software developer.', pubDate } = Astro.props;
 const currentPath = Astro.url.pathname;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const isBlog = currentPath.startsWith(`${base}/blog`);
+// Trailing slash matters: GitHub Pages redirects /Portfolio to /Portfolio/,
+// and the sitemap lists the slashed form — the canonical must match it.
+const canonical = new URL(currentPath.endsWith('/') ? currentPath : `${currentPath}/`, Astro.site);
 ---
 
 <html lang="en">
@@ -17,9 +25,21 @@ const isBlog = currentPath.startsWith(`${base}/blog`);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
     <link rel="icon" href={`${base}/favicon.svg`} type="image/svg+xml" />
     <link rel="alternate" type="application/rss+xml" title="Praveen Kumar Yennam — Blog" href={`${base}/rss.xml`} />
     <title>{title}</title>
+    <meta property="og:type" content={pubDate ? 'article' : 'website'} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="Praveen Kumar Yennam" />
+    <meta property="og:locale" content="en_US" />
+    {pubDate && <meta property="article:published_time" content={pubDate.toISOString()} />}
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <slot name="head" />
     <script is:inline>
       // Apply the saved theme before first paint to avoid a flash.
       (() => {
@@ -30,6 +50,102 @@ const isBlog = currentPath.startsWith(`${base}/blog`);
     </script>
   </head>
   <body>
+    <div class="scroll-progress" aria-hidden="true"></div>
+    <div class="ambient" aria-hidden="true">
+      <span class="glow glow-a"></span>
+      <span class="glow glow-b"></span>
+      <!-- Quadcopter drone, mid-height, left to right -->
+      <span class="flyer" style="--y: 16%; --dur: 48s; --delay: -12s; --scale: 1; --peak: 0.45">
+        <span class="bob" style="--bob: 5s">
+          <svg viewBox="0 0 64 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path class="rotor" d="M6 7h16" />
+            <path class="rotor" d="M42 7h16" />
+            <path d="M14 7v4M50 7v4" />
+            <path d="M26 17 14 11M38 17 50 11" />
+            <rect x="25" y="14" width="14" height="8" rx="4" />
+            <path d="M28 25h8" />
+          </svg>
+        </span>
+      </span>
+      <!-- Small distant drone, right to left -->
+      <span class="flyer flyer-rtl" style="--y: 36%; --dur: 72s; --delay: -40s; --scale: 0.55; --peak: 0.3">
+        <span class="bob" style="--bob: 4s">
+          <svg viewBox="0 0 64 30" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+            <path class="rotor" d="M6 7h16" />
+            <path class="rotor" d="M42 7h16" />
+            <path d="M14 7v4M50 7v4" />
+            <path d="M26 17 14 11M38 17 50 11" />
+            <rect x="25" y="14" width="14" height="8" rx="4" />
+          </svg>
+        </span>
+      </span>
+      <!-- Paper plane, quick and tilted -->
+      <span class="flyer" style="--y: 26%; --dur: 34s; --delay: -20s; --scale: 0.75; --peak: 0.5">
+        <span class="bob" style="--bob: 3.5s">
+          <svg class="tilt" viewBox="0 0 48 34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M2 20 46 3 32 31l-9-8z" />
+            <path d="M23 23 46 3" />
+          </svg>
+        </span>
+      </span>
+      <!-- Slow blimp, high and faint -->
+      <span class="flyer flyer-rtl sand" style="--y: 8%; --dur: 115s; --delay: -60s; --scale: 1.5; --peak: 0.33">
+        <span class="bob" style="--bob: 8s">
+          <svg viewBox="0 0 88 36" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <ellipse cx="40" cy="14" rx="34" ry="11" />
+            <path d="M74 8v12l10-3v-6z" />
+            <path d="M30 25l3 5h12l3-5" />
+            <rect x="33" y="29" width="12" height="6" rx="2" />
+          </svg>
+        </span>
+      </span>
+      <!-- Lower drone, sand tint -->
+      <span class="flyer sand" style="--y: 64%; --dur: 58s; --delay: -6s; --scale: 0.8; --peak: 0.32">
+        <span class="bob" style="--bob: 6s">
+          <svg viewBox="0 0 64 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path class="rotor" d="M6 7h16" />
+            <path class="rotor" d="M42 7h16" />
+            <path d="M14 7v4M50 7v4" />
+            <path d="M26 17 14 11M38 17 50 11" />
+            <rect x="25" y="14" width="14" height="8" rx="4" />
+            <path d="M28 25h8" />
+          </svg>
+        </span>
+      </span>
+      <!-- Low distant paper plane, right to left -->
+      <span class="flyer flyer-rtl" style="--y: 82%; --dur: 66s; --delay: -33s; --scale: 0.55; --peak: 0.28">
+        <span class="bob" style="--bob: 4.5s">
+          <svg class="tilt" viewBox="0 0 48 34" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M2 20 46 3 32 31l-9-8z" />
+            <path d="M23 23 46 3" />
+          </svg>
+        </span>
+      </span>
+      <!-- Helicopter, mid height, right to left -->
+      <span class="flyer flyer-rtl" style="--y: 46%; --dur: 44s; --delay: -16s; --scale: 0.9; --peak: 0.38">
+        <span class="bob" style="--bob: 3.8s">
+          <svg viewBox="0 0 72 34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path class="rotor" d="M10 6h40" />
+            <path d="M30 6v4" />
+            <ellipse cx="30" cy="18" rx="14" ry="8" />
+            <path d="M44 16h16l6-6" />
+            <path d="M60 16v-4" />
+            <path d="M20 28h22M24 26v2M38 26v2" />
+          </svg>
+        </span>
+      </span>
+      <!-- Hot-air balloon, slow and dreamy, sand tint -->
+      <span class="flyer sand" style="--y: 28%; --dur: 96s; --delay: -50s; --scale: 1.1; --peak: 0.3">
+        <span class="bob" style="--bob: 9s">
+          <svg viewBox="0 0 44 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M22 4c11 0 18 8 18 17 0 10-9 16-13 22h-10C13 37 4 31 4 21 4 12 11 4 22 4z" />
+            <path d="M15 5c-4 5-4 15 2 22M29 5c4 5 4 15-2 22" />
+            <path d="M17 43v6M27 43v6" />
+            <rect x="15" y="49" width="14" height="10" rx="2" />
+          </svg>
+        </span>
+      </span>
+    </div>
     <header class="site-header">
       <div class="container">
         <a class="logo" href={`${base}/`}>praveen<span class="dot">.</span>dev</a>
@@ -66,6 +182,28 @@ const isBlog = currentPath.startsWith(`${base}/blog`);
       </div>
     </footer>
 
+    <div class="chat-widget">
+      <div class="chat-panel" role="dialog" aria-label="Chat with Praveen's assistant" hidden>
+        <div class="chat-header">
+          <span class="chat-avatar" aria-hidden="true">PY</span>
+          <div>
+            <strong>Praveen's assistant</strong>
+            <span class="chat-status">replies instantly</span>
+          </div>
+        </div>
+        <div class="chat-messages" aria-live="polite"></div>
+        <div class="chat-replies"></div>
+      </div>
+      <button class="chat-toggle" type="button" aria-expanded="false" aria-label="Open chat">
+        <svg class="icon-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+        <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M18 6 6 18M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
     <script>
       // Reveal elements as they scroll into view.
       const observer = new IntersectionObserver(
@@ -79,13 +217,128 @@ const isBlog = currentPath.startsWith(`${base}/blog`);
         },
         { threshold: 0.15 }
       );
-      document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+      document
+        .querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-zoom')
+        .forEach((el) => observer.observe(el));
+
+      // Scroll-linked effects: progress hairline, header shadow, glow parallax.
+      const header = document.querySelector('.site-header');
+      const onScroll = () => {
+        const doc = document.documentElement;
+        const max = doc.scrollHeight - window.innerHeight;
+        doc.style.setProperty('--progress', String(max > 0 ? window.scrollY / max : 0));
+        doc.style.setProperty('--scroll-y', String(window.scrollY));
+        header?.classList.toggle('scrolled', window.scrollY > 8);
+      };
+      addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
 
       // Theme toggle: flip the data-theme attribute and remember the choice.
       document.querySelector('.theme-toggle')?.addEventListener('click', () => {
         const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
         document.documentElement.dataset.theme = next;
         localStorage.setItem('theme', next);
+      });
+
+      // Chat widget: scripted assistant with quick-reply questions.
+      const chatWidget = document.querySelector('.chat-widget')!;
+      const chatToggle = chatWidget.querySelector<HTMLButtonElement>('.chat-toggle')!;
+      const chatPanel = chatWidget.querySelector<HTMLElement>('.chat-panel')!;
+      const chatMessages = chatWidget.querySelector<HTMLElement>('.chat-messages')!;
+      const chatReplies = chatWidget.querySelector<HTMLElement>('.chat-replies')!;
+
+      const qa = [
+        {
+          q: 'What does Praveen do?',
+          a: "He's a software developer at Bioculture Group in Mauritius, building business web applications with .NET and Angular.",
+          links: false,
+        },
+        {
+          q: "What's his experience?",
+          a: 'Over 18 years across HR & payroll platforms, government systems and retail point-of-sale — from engineer to lead developer and solution architect, with an MBA in IT Enterprise Management.',
+          links: false,
+        },
+        {
+          q: 'Which technologies?',
+          a: 'C# / .NET, Angular & TypeScript, SQL Server and Oracle — with Azure DevOps for delivery.',
+          links: false,
+        },
+        {
+          q: 'How do I get in touch?',
+          a: 'Email is the quickest way — or connect on LinkedIn:',
+          links: true,
+        },
+      ];
+
+      const addMsg = (text: string, who: 'bot' | 'user') => {
+        const el = document.createElement('div');
+        el.className = `msg ${who}`;
+        el.textContent = text;
+        chatMessages.append(el);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        return el;
+      };
+
+      const addContactLinks = () => {
+        const el = document.createElement('div');
+        el.className = 'msg bot msg-links';
+        const email = document.createElement('a');
+        email.href = 'mailto:praveen@bioculture-mauritius.com';
+        email.textContent = 'Email';
+        const li = document.createElement('a');
+        li.href = 'https://www.linkedin.com/in/praveen-kumar-yennam-52167910';
+        li.target = '_blank';
+        li.rel = 'noopener';
+        li.textContent = 'LinkedIn';
+        el.append(email, li);
+        chatMessages.append(el);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      };
+
+      const showTyping = () => {
+        const el = document.createElement('div');
+        el.className = 'msg bot typing';
+        el.append(...[1, 2, 3].map(() => document.createElement('span')));
+        chatMessages.append(el);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        return el;
+      };
+
+      for (const item of qa) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.textContent = item.q;
+        btn.addEventListener('click', () => {
+          addMsg(item.q, 'user');
+          const typing = showTyping();
+          setTimeout(() => {
+            typing.remove();
+            addMsg(item.a, 'bot');
+            if (item.links) addContactLinks();
+          }, 700);
+        });
+        chatReplies.append(btn);
+      }
+
+      let greeted = false;
+      const setChatOpen = (open: boolean) => {
+        chatPanel.hidden = !open;
+        chatWidget.classList.toggle('open', open);
+        chatToggle.setAttribute('aria-expanded', String(open));
+        chatToggle.setAttribute('aria-label', open ? 'Close chat' : 'Open chat');
+        if (open && !greeted) {
+          greeted = true;
+          const typing = showTyping();
+          setTimeout(() => {
+            typing.remove();
+            addMsg("Hi, I'm Praveen's site assistant. Pick a question below and I'll fill you in.", 'bot');
+          }, 600);
+        }
+      };
+
+      chatToggle.addEventListener('click', () => setChatOpen(chatPanel.hidden));
+      addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !chatPanel.hidden) setChatOpen(false);
       });
     </script>
   </body>

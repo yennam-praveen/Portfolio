@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
@@ -8,6 +9,7 @@ export default defineConfig({
   // GitHub Pages project site: https://yennam-praveen.github.io/Portfolio/
   site: 'https://yennam-praveen.github.io',
   base: '/Portfolio',
+  integrations: [sitemap()],
   markdown: {
     shikiConfig: {
       // Emit both themes; global.css switches them via the data-theme attribute.

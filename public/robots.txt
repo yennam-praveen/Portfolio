@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://yennam-praveen.github.io/Portfolio/sitemap-index.xml

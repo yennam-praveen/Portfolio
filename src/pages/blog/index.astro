@@ -10,7 +10,10 @@ const posts = (await getCollection('blog')).sort(
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
-<Base title="Blog — Praveen Kumar Yennam">
+<Base
+  title="Blog — Praveen Kumar Yennam"
+  description="Occasional notes on software development — .NET, Angular and lessons from 18+ years of building business applications in Mauritius."
+>
   <section class="container blog-page">
     <h1 class="section-title reveal visible">The <span class="accent">blog</span></h1>
     <p class="muted intro reveal visible reveal-delay-1">
@@ -20,7 +23,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
     <div class="post-list">
       {posts.map((post, i) => (
-        <a class={`card post-row reveal reveal-delay-${Math.min(i, 3)}`} href={`${base}/blog/${post.id}/`}>
+        <a class={`card post-row reveal-left reveal-delay-${Math.min(i, 3)}`} href={`${base}/blog/${post.id}/`}>
           <div>
             <h2>{post.data.title}</h2>
             <p class="muted">{post.data.description}</p>
