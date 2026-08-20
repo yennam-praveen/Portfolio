@@ -54,97 +54,6 @@ const canonical = new URL(currentPath.endsWith('/') ? currentPath : `${currentPa
     <div class="ambient" aria-hidden="true">
       <span class="glow glow-a"></span>
       <span class="glow glow-b"></span>
-      <!-- Quadcopter drone, mid-height, left to right -->
-      <span class="flyer" style="--y: 16%; --dur: 48s; --delay: -12s; --scale: 1; --peak: 0.45">
-        <span class="bob" style="--bob: 5s">
-          <svg viewBox="0 0 64 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-            <path class="rotor" d="M6 7h16" />
-            <path class="rotor" d="M42 7h16" />
-            <path d="M14 7v4M50 7v4" />
-            <path d="M26 17 14 11M38 17 50 11" />
-            <rect x="25" y="14" width="14" height="8" rx="4" />
-            <path d="M28 25h8" />
-          </svg>
-        </span>
-      </span>
-      <!-- Small distant drone, right to left -->
-      <span class="flyer flyer-rtl" style="--y: 36%; --dur: 72s; --delay: -40s; --scale: 0.55; --peak: 0.3">
-        <span class="bob" style="--bob: 4s">
-          <svg viewBox="0 0 64 30" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
-            <path class="rotor" d="M6 7h16" />
-            <path class="rotor" d="M42 7h16" />
-            <path d="M14 7v4M50 7v4" />
-            <path d="M26 17 14 11M38 17 50 11" />
-            <rect x="25" y="14" width="14" height="8" rx="4" />
-          </svg>
-        </span>
-      </span>
-      <!-- Paper plane, quick and tilted -->
-      <span class="flyer" style="--y: 26%; --dur: 34s; --delay: -20s; --scale: 0.75; --peak: 0.5">
-        <span class="bob" style="--bob: 3.5s">
-          <svg class="tilt" viewBox="0 0 48 34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M2 20 46 3 32 31l-9-8z" />
-            <path d="M23 23 46 3" />
-          </svg>
-        </span>
-      </span>
-      <!-- Slow blimp, high and faint -->
-      <span class="flyer flyer-rtl sand" style="--y: 8%; --dur: 115s; --delay: -60s; --scale: 1.5; --peak: 0.33">
-        <span class="bob" style="--bob: 8s">
-          <svg viewBox="0 0 88 36" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <ellipse cx="40" cy="14" rx="34" ry="11" />
-            <path d="M74 8v12l10-3v-6z" />
-            <path d="M30 25l3 5h12l3-5" />
-            <rect x="33" y="29" width="12" height="6" rx="2" />
-          </svg>
-        </span>
-      </span>
-      <!-- Lower drone, sand tint -->
-      <span class="flyer sand" style="--y: 64%; --dur: 58s; --delay: -6s; --scale: 0.8; --peak: 0.32">
-        <span class="bob" style="--bob: 6s">
-          <svg viewBox="0 0 64 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-            <path class="rotor" d="M6 7h16" />
-            <path class="rotor" d="M42 7h16" />
-            <path d="M14 7v4M50 7v4" />
-            <path d="M26 17 14 11M38 17 50 11" />
-            <rect x="25" y="14" width="14" height="8" rx="4" />
-            <path d="M28 25h8" />
-          </svg>
-        </span>
-      </span>
-      <!-- Low distant paper plane, right to left -->
-      <span class="flyer flyer-rtl" style="--y: 82%; --dur: 66s; --delay: -33s; --scale: 0.55; --peak: 0.28">
-        <span class="bob" style="--bob: 4.5s">
-          <svg class="tilt" viewBox="0 0 48 34" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M2 20 46 3 32 31l-9-8z" />
-            <path d="M23 23 46 3" />
-          </svg>
-        </span>
-      </span>
-      <!-- Helicopter, mid height, right to left -->
-      <span class="flyer flyer-rtl" style="--y: 46%; --dur: 44s; --delay: -16s; --scale: 0.9; --peak: 0.38">
-        <span class="bob" style="--bob: 3.8s">
-          <svg viewBox="0 0 72 34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path class="rotor" d="M10 6h40" />
-            <path d="M30 6v4" />
-            <ellipse cx="30" cy="18" rx="14" ry="8" />
-            <path d="M44 16h16l6-6" />
-            <path d="M60 16v-4" />
-            <path d="M20 28h22M24 26v2M38 26v2" />
-          </svg>
-        </span>
-      </span>
-      <!-- Hot-air balloon, slow and dreamy, sand tint -->
-      <span class="flyer sand" style="--y: 28%; --dur: 96s; --delay: -50s; --scale: 1.1; --peak: 0.3">
-        <span class="bob" style="--bob: 9s">
-          <svg viewBox="0 0 44 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M22 4c11 0 18 8 18 17 0 10-9 16-13 22h-10C13 37 4 31 4 21 4 12 11 4 22 4z" />
-            <path d="M15 5c-4 5-4 15 2 22M29 5c4 5 4 15-2 22" />
-            <path d="M17 43v6M27 43v6" />
-            <rect x="15" y="49" width="14" height="10" rx="2" />
-          </svg>
-        </span>
-      </span>
     </div>
     <header class="site-header">
       <div class="container">
@@ -205,29 +114,12 @@ const canonical = new URL(currentPath.endsWith('/') ? currentPath : `${currentPa
     </div>
 
     <script>
-      // Reveal elements as they scroll into view.
-      const observer = new IntersectionObserver(
-        (entries) => {
-          for (const entry of entries) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('visible');
-              observer.unobserve(entry.target);
-            }
-          }
-        },
-        { threshold: 0.15 }
-      );
-      document
-        .querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-zoom')
-        .forEach((el) => observer.observe(el));
-
-      // Scroll-linked effects: progress hairline, header shadow, glow parallax.
+      // Scroll-linked state: progress hairline and header shadow.
       const header = document.querySelector('.site-header');
       const onScroll = () => {
         const doc = document.documentElement;
         const max = doc.scrollHeight - window.innerHeight;
         doc.style.setProperty('--progress', String(max > 0 ? window.scrollY / max : 0));
-        doc.style.setProperty('--scroll-y', String(window.scrollY));
         header?.classList.toggle('scrolled', window.scrollY > 8);
       };
       addEventListener('scroll', onScroll, { passive: true });

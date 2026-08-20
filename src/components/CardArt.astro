@@ -1,6 +1,8 @@
 ---
-// Small animated line-art illustration for cards.
-// The stroke colour comes from the card's tint via `.card-art` in global.css.
+// Card illustrations, tinted via `.card-art` in global.css.
+// Skill cards use small icons; project cards get wide pictorial scenes
+// (point-of-sale counter, biometric attendance, HR & payroll, animal
+// breeding + data dashboard) rendered as full-width "images".
 interface Props {
   kind:
     | 'code'
@@ -13,9 +15,10 @@ interface Props {
     | 'bio';
 }
 const { kind } = Astro.props;
+const isScene = ['payroll', 'attendance', 'pos', 'bio'].includes(kind);
 ---
 
-<div class="card-art" aria-hidden="true">
+<div class:list={['card-art', { 'card-art--scene': isScene }]} aria-hidden="true">
   {kind === 'code' && (
     <svg viewBox="0 0 96 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <rect x="6" y="8" width="84" height="48" rx="6" />
@@ -60,38 +63,103 @@ const { kind } = Astro.props;
     </svg>
   )}
   {kind === 'payroll' && (
-    <svg viewBox="0 0 96 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M26 6h30l14 14v38H26z" />
-      <path d="M56 6v14h14" />
-      <path d="M34 30h28M34 38h28M34 46h14" />
-      <circle class="seq s2" cx="62" cy="48" r="8" />
-      <path class="seq s2" d="M62 44v8m-3-6h6" />
+    <svg viewBox="0 0 220 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="30" cy="24" r="9" />
+      <path d="M16 47a14 14 0 0 1 28 0" />
+      <circle cx="56" cy="30" r="7" opacity="0.65" />
+      <path d="M45 48a11 11 0 0 1 22 0" opacity="0.65" />
+      <rect x="86" y="12" width="50" height="72" rx="5" />
+      <path d="M94 24h34" />
+      <path d="M94 34h34M94 42h34M94 50h22" opacity="0.6" />
+      <path d="M94 60h34" />
+      <path d="M94 70h14" />
+      <circle cx="124" cy="70" r="7" />
+      <circle cx="124" cy="70" r="3.4" opacity="0.6" />
+      <ellipse cx="168" cy="52" rx="13" ry="4.5" />
+      <path d="M155 52v8c0 2.5 5.8 4.5 13 4.5s13-2 13-4.5v-8" />
+      <path d="M155 62v8c0 2.5 5.8 4.5 13 4.5s13-2 13-4.5v-8" />
+      <path d="M155 72v8c0 2.5 5.8 4.5 13 4.5s13-2 13-4.5v-8" />
+      <circle cx="196" cy="40" r="10" />
+      <circle cx="196" cy="40" r="5.6" opacity="0.6" />
     </svg>
   )}
   {kind === 'attendance' && (
-    <svg viewBox="0 0 96 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="36" cy="32" r="20" />
-      <path d="M36 14v4M36 46v4M16 32h4M52 32h4" opacity="0.55" />
-      <path class="hand" d="M36 32V21" />
-      <path d="M36 32l8 4" />
-      <path class="seq s2" d="M62 40l7 7 13-13" />
+    <svg viewBox="0 0 220 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="26" y="8" width="58" height="76" rx="7" />
+      <rect x="34" y="16" width="42" height="14" rx="2" />
+      <path d="M39 23h10M57 23h10" />
+      <circle cx="52.5" cy="21" r="0.9" fill="currentColor" stroke="none" />
+      <circle cx="52.5" cy="25" r="0.9" fill="currentColor" stroke="none" />
+      <rect x="36" y="38" width="38" height="34" rx="4" />
+      <circle cx="55" cy="55" r="2.6" />
+      <path d="M55 48.8a6.2 6.2 0 0 1 6.2 6.2 6.2 6.2 0 0 1-6.2 6.2" />
+      <path d="M55 45a10 10 0 1 0 0 20" />
+      <circle cx="131" cy="28" r="15" />
+      <path d="M131 14.5v3M131 38.5v3M116.5 28h3M142.5 28h3" opacity="0.55" />
+      <path d="M131 28v-8.5M131 28l6 4" />
+      <circle cx="99" cy="68" r="10.5" />
+      <path d="M94 68l3.5 3.5 7-7.5" />
+      <rect x="152" y="50" width="48" height="36" rx="5" />
+      <path d="M152 60h48" />
+      <path d="M162 50v-6M190 50v-6" />
+      <circle cx="163" cy="68" r="1.6" fill="currentColor" stroke="none" />
+      <circle cx="173" cy="68" r="1.6" fill="currentColor" stroke="none" />
+      <circle cx="183" cy="68" r="1.6" fill="currentColor" stroke="none" />
+      <circle cx="193" cy="68" r="1.6" fill="currentColor" stroke="none" />
+      <circle cx="163" cy="76" r="1.6" fill="currentColor" stroke="none" />
+      <circle cx="173" cy="76" r="1.6" fill="currentColor" stroke="none" />
+      <circle cx="183" cy="76" r="1.6" fill="currentColor" stroke="none" />
+      <circle cx="183" cy="76" r="4.4" />
     </svg>
   )}
   {kind === 'pos' && (
-    <svg viewBox="0 0 96 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M32 6h32v46l-5-4-6 4-5-4-5 4-6-4-5 4z" />
-      <path d="M40 18h16M40 26h16M40 34h9" />
-      <path class="seq s2" d="M40 42h16" />
+    <svg viewBox="0 0 220 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 88h196" />
+      <rect x="18" y="14" width="62" height="40" rx="5" />
+      <path d="M26 24h30M26 32h38M26 40h22" opacity="0.6" />
+      <path d="M26 47h38" />
+      <path d="M49 54v8M38 62h22" />
+      <rect x="20" y="70" width="58" height="14" rx="3" />
+      <path d="M45 77h8" />
+      <rect x="92" y="76" width="36" height="12" rx="3" />
+      <path d="M96 77V34l4.7-4 4.7 4 4.7-4 4.7 4 4.7-4 4.5 4v43" />
+      <path d="M102 42h16M102 50h16M102 58h10" opacity="0.6" />
+      <path d="M160 34v-9a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v9" />
+      <rect x="152" y="34" width="38" height="50" rx="6" />
+      <rect x="159" y="42" width="24" height="12" rx="2" />
+      <circle cx="163" cy="62" r="1.7" fill="currentColor" stroke="none" />
+      <circle cx="171" cy="62" r="1.7" fill="currentColor" stroke="none" />
+      <circle cx="179" cy="62" r="1.7" fill="currentColor" stroke="none" />
+      <circle cx="163" cy="69" r="1.7" fill="currentColor" stroke="none" />
+      <circle cx="171" cy="69" r="1.7" fill="currentColor" stroke="none" />
+      <circle cx="179" cy="69" r="1.7" fill="currentColor" stroke="none" />
+      <circle cx="163" cy="76" r="1.7" fill="currentColor" stroke="none" />
+      <circle cx="171" cy="76" r="1.7" fill="currentColor" stroke="none" />
+      <circle cx="179" cy="76" r="1.7" fill="currentColor" stroke="none" />
     </svg>
   )}
   {kind === 'bio' && (
-    <svg viewBox="0 0 96 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="8" y="6" width="80" height="52" rx="6" />
-      <path d="M8 17h80" />
-      <circle cx="15" cy="11.5" r="1.5" />
-      <circle cx="21" cy="11.5" r="1.5" />
-      <path class="leaf" d="M42 50c-7-11-3-23 12-27 6 11 1 23-12 27z" />
-      <path class="leaf" d="M54 23 42 50" />
+    <svg viewBox="0 0 220 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M26 14c0 10 20 26 20 36s-20 26-20 36" />
+      <path d="M46 14c0 10-20 26-20 36s20 26 20 36" />
+      <path d="M27 18h18M27 46h18M27 54h18M27 82h18" opacity="0.6" />
+      <ellipse cx="88" cy="66" rx="10" ry="7.5" />
+      <circle cx="76.5" cy="55" r="3.6" />
+      <circle cx="84" cy="49" r="3.6" />
+      <circle cx="93" cy="49" r="3.6" />
+      <circle cx="100.5" cy="55" r="3.6" />
+      <ellipse cx="118" cy="36" rx="6.5" ry="5" opacity="0.7" />
+      <circle cx="110.5" cy="29.5" r="2.4" opacity="0.7" />
+      <circle cx="115.5" cy="25.5" r="2.4" opacity="0.7" />
+      <circle cx="120.5" cy="25.5" r="2.4" opacity="0.7" />
+      <circle cx="125.5" cy="29.5" r="2.4" opacity="0.7" />
+      <rect x="146" y="20" width="58" height="62" rx="5" />
+      <path d="M154 72h42" opacity="0.6" />
+      <rect x="158" y="58" width="8" height="14" />
+      <rect x="170" y="48" width="8" height="24" />
+      <rect x="182" y="36" width="8" height="36" />
+      <path d="M158 50l12-10 12-8 12-4" />
+      <circle cx="194" cy="28" r="2.2" fill="currentColor" stroke="none" />
     </svg>
   )}
 </div>
@@ -103,45 +171,15 @@ const { kind } = Astro.props;
     display: block;
   }
 
-  /* Gentle sequential pulse shared by most kinds */
-  .seq {
-    animation: art-pulse 3.6s ease-in-out infinite;
+  /* Wide illustrated scenes on project cards, framed like an image */
+  .card-art--scene {
+    border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+    background: color-mix(in srgb, currentColor 7%, transparent);
+    border-radius: calc(var(--radius) - 4px);
+    padding: 0.85rem 0.9rem;
   }
 
-  .s2 { animation-delay: 1.2s; }
-  .s3 { animation-delay: 2.4s; }
-
-  @keyframes art-pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.35; }
-  }
-
-  /* Clock hand sweeps around its pivot */
-  .hand {
-    transform-box: view-box;
-    transform-origin: 36px 32px;
-    animation: art-sweep 12s linear infinite;
-  }
-
-  @keyframes art-sweep {
-    to { transform: rotate(360deg); }
-  }
-
-  /* Leaf sways from its stem */
-  .leaf {
-    transform-box: view-box;
-    transform-origin: 42px 50px;
-    animation: art-sway 5s ease-in-out infinite alternate;
-  }
-
-  @keyframes art-sway {
-    from { transform: rotate(-4deg); }
-    to { transform: rotate(4deg); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .seq, .hand, .leaf {
-      animation: none;
-    }
+  .card-art--scene svg {
+    width: 100%;
   }
 </style>
