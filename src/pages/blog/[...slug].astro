@@ -93,6 +93,13 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
   .post-body :global(p) {
     margin-bottom: 1.1rem;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  /* Print-style first-line indent on consecutive paragraphs */
+  .post-body :global(p + p) {
+    text-indent: 1.5em;
   }
 
   .post-body :global(ul),
