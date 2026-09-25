@@ -9,6 +9,7 @@ interface Props {
     | 'components'
     | 'database'
     | 'team'
+    | 'ai'
     | 'payroll'
     | 'attendance'
     | 'pos'
@@ -60,6 +61,16 @@ const isScene = ['payroll', 'attendance', 'pos', 'bio'].includes(kind);
       <circle class="seq s3" cx="74" cy="30" r="6" />
       <path class="seq s3" d="M65 45a9 9 0 0 1 18 0" />
       <path d="M40 26l-10 2m36-2 10 2" opacity="0.5" />
+    </svg>
+  )}
+  {kind === 'ai' && (
+    <svg viewBox="0 0 96 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="32" y="18" width="28" height="28" rx="6" />
+      <rect x="41" y="27" width="10" height="10" rx="2" opacity="0.6" />
+      <path d="M38 18v-6M46 18v-6M54 18v-6M38 52v-6M46 52v-6M54 52v-6" opacity="0.55" />
+      <path d="M32 26h-6M32 38h-6M60 26h6M60 38h6" opacity="0.55" />
+      <path class="seq s2" d="M76 14l1.8 4.6L82 20.4l-4.2 1.8L76 26.8l-1.8-4.6-4.2-1.8 4.2-1.8z" />
+      <path class="seq s3" d="M20 44l1.3 3.2 3.2 1.3-3.2 1.3-1.3 3.2-1.3-3.2-3.2-1.3 3.2-1.3z" />
     </svg>
   )}
   {kind === 'payroll' && (

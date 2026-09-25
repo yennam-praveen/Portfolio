@@ -1,0 +1,217 @@
+---
+import Base from '../layouts/Base.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const toolkit = [
+  {
+    name: 'Claude Code',
+    role: 'Agentic pair programmer',
+    note: 'Terminal-first AI that reads the codebase, plans, edits files and runs the checks — I use it for features, refactors, security scans and even this site.',
+  },
+  {
+    name: 'GitHub Copilot',
+    role: 'In-editor completion',
+    note: 'Autocomplete on fast-forward inside the IDE — strongest on the repetitive shapes of C# and TypeScript that used to eat afternoons.',
+  },
+  {
+    name: 'LLM APIs',
+    role: 'The next building block',
+    note: 'Exploring where large-language-model APIs fit inside business applications — document understanding, natural-language queries over data, smarter workflows.',
+  },
+] as const;
+
+const principles = [
+  {
+    title: 'The developer stays accountable',
+    note: "AI writes suggestions; I ship decisions. Every line that reaches production is a line I've read, understood and can defend.",
+  },
+  {
+    title: 'Verify, then trust',
+    note: 'Generated code gets the same treatment as any junior developer’s pull request: tests, review and a healthy dose of scepticism.',
+  },
+  {
+    title: 'Business data is sacred',
+    note: 'What goes into a model matters as much as what comes out — customer and company data only flows where policy says it can.',
+  },
+  {
+    title: 'Fundamentals compound',
+    note: 'AI multiplies whatever engineering judgement you bring to it. Eighteen years of production systems is exactly what makes the multiplier big.',
+  },
+] as const;
+---
+
+<Base
+  title="AI in my workflow — Praveen Kumar Yennam"
+  description="How an 18-year .NET and Angular developer uses AI — Claude Code, GitHub Copilot and LLM APIs — to design, build and review business software."
+>
+  <section class="container ai-page">
+    <p class="eyebrow reveal">ai --status · active daily</p>
+    <h1 class="reveal">Software development, <span class="accent-word">with AI in the loop</span></h1>
+    <p class="lead muted reveal reveal-delay-1">
+      I started writing C# in 2007, when the height of tooling was IntelliSense.
+      Today an AI agent can read a codebase, propose a plan and draft the
+      implementation before my coffee is done. This page is the honest version
+      of how that changed my work — and what it didn't change.
+    </p>
+  </section>
+
+  <section class="container ai-section">
+    <h2 class="section-title reveal">The <span class="accent">toolkit</span></h2>
+    <div class="tool-grid">
+      {toolkit.map((tool, i) => (
+        <div class={`card tool-card reveal-zoom reveal-delay-${Math.min(i, 3)}`}>
+          <span class="tool-role">{tool.role}</span>
+          <h3>{tool.name}</h3>
+          <p class="muted">{tool.note}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="container ai-section">
+    <h2 class="section-title reveal">What actually <span class="accent">changed</span></h2>
+    <div class="changed reveal reveal-delay-1">
+      <p>
+        The honest answer: the boring parts collapsed. Scaffolding a service,
+        wiring a CRUD screen, writing the fourth variation of a mapping class —
+        work that used to fill days now takes minutes, and the freed time goes
+        into the parts that always deserved it: the data model, the edge cases,
+        the conversation with the people who'll use the system.
+      </p>
+      <p>
+        Reviews got sharper too. An AI second pair of eyes catches the null
+        path I skimmed past at 5 p.m., and security scanning that used to be an
+        annual event now runs on any branch, any afternoon. None of it removes
+        the engineer from the loop — it removes the waiting from the engineer.
+      </p>
+    </div>
+  </section>
+
+  <section class="container ai-section">
+    <h2 class="section-title reveal">Working <span class="accent">principles</span></h2>
+    <div class="principles-grid">
+      {principles.map((p, i) => (
+        <div class={`card principle reveal-zoom reveal-delay-${Math.min(i, 3)}`}>
+          <span class="principle-index">0{i + 1}</span>
+          <h3>{p.title}</h3>
+          <p class="muted">{p.note}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="container ai-section ai-cta">
+    <div class="cta-panel reveal">
+      <h2>Where this is heading</h2>
+      <p class="muted">
+        The next chapter is AI <em>inside</em> the applications, not just beside
+        the developer — business systems that understand documents, answer
+        questions in plain language and automate the workflows people hate.
+        I write about it as I learn.
+      </p>
+      <div class="cta-actions">
+        <a class="btn btn-primary" href={`${base}/blog/`}>Read the blog <span class="btn-icon" aria-hidden="true">↗</span></a>
+        <a class="btn btn-ghost" href="mailto:praveen@bioculture-mauritius.com">Get in touch <span class="btn-icon" aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .ai-page {
+    padding-top: 6.5rem;
+    max-width: 50rem;
+  }
+
+  .ai-page h1 {
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    margin: 1rem 0 1.5rem;
+  }
+
+  .lead {
+    font-size: 1.12rem;
+    max-width: 40rem;
+  }
+
+  .ai-section {
+    padding-top: 5rem;
+  }
+
+  .tool-grid,
+  .principles-grid {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  }
+
+  .tool-card { --tint: var(--tint-sage); }
+  .tool-card:nth-child(2) { --tint: var(--tint-sand); }
+  .tool-card:nth-child(3) { --tint: var(--tint-mist); }
+
+  .tool-role {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: inline-block;
+    margin-bottom: 0.6rem;
+  }
+
+  .card h3 {
+    margin-bottom: 0.45rem;
+    font-size: 1.15rem;
+  }
+
+  .changed {
+    max-width: 44rem;
+    display: grid;
+    gap: 1.1rem;
+  }
+
+  .principle { --tint: var(--tint-clay); }
+  .principle:nth-child(2) { --tint: var(--tint-sage); }
+  .principle:nth-child(3) { --tint: var(--tint-sand); }
+  .principle:nth-child(4) { --tint: var(--tint-mist); }
+
+  .principle-index {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    display: inline-block;
+    margin-bottom: 0.7rem;
+  }
+
+  .ai-cta {
+    padding-bottom: 1rem;
+  }
+
+  .cta-panel {
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border));
+    border-radius: calc(var(--radius) + 6px);
+    padding: 2.5rem;
+    background:
+      radial-gradient(120% 140% at 0% 0%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 55%),
+      color-mix(in srgb, var(--surface) 80%, transparent);
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 6%, transparent);
+  }
+
+  .cta-panel h2 {
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    margin-bottom: 0.8rem;
+  }
+
+  .cta-panel p {
+    max-width: 40rem;
+    margin-bottom: 1.6rem;
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+</style>

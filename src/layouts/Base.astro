@@ -1,7 +1,6 @@
 ---
-import '@fontsource-variable/outfit';
-import '@fontsource-variable/fraunces/opsz.css';
-import '@fontsource-variable/fraunces/opsz-italic.css';
+import '@fontsource-variable/space-grotesk';
+import '@fontsource-variable/jetbrains-mono';
 import '../styles/global.css';
 
 interface Props {
@@ -15,6 +14,7 @@ const { title, description = 'Personal site and blog of Praveen Kumar Yennam, so
 const currentPath = Astro.url.pathname;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const isBlog = currentPath.startsWith(`${base}/blog`);
+const isAI = currentPath.startsWith(`${base}/ai`);
 // Trailing slash matters: GitHub Pages redirects /Portfolio to /Portfolio/,
 // and the sitemap lists the slashed form — the canonical must match it.
 const canonical = new URL(currentPath.endsWith('/') ? currentPath : `${currentPath}/`, Astro.site);
@@ -41,11 +41,14 @@ const canonical = new URL(currentPath.endsWith('/') ? currentPath : `${currentPa
     <meta name="twitter:description" content={description} />
     <slot name="head" />
     <script is:inline>
-      // Apply the saved theme before first paint to avoid a flash.
+      // Apply the saved theme before first paint to avoid a flash, and mark
+      // the document as JS-capable so scroll reveals only hide content when
+      // the observer that reveals it again is actually going to run.
       (() => {
         const saved = localStorage.getItem('theme');
         const theme = saved ?? (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
         document.documentElement.dataset.theme = theme;
+        document.documentElement.classList.add('js');
       })();
     </script>
   </head>
@@ -57,10 +60,10 @@ const canonical = new URL(currentPath.endsWith('/') ? currentPath : `${currentPa
     </div>
     <header class="site-header">
       <div class="container">
-        <a class="logo" href={`${base}/`}>praveen<span class="dot">.</span>dev</a>
         <nav class="site-nav">
-          <a href={`${base}/`} aria-current={!isBlog ? 'page' : undefined}>Home</a>
+          <a href={`${base}/`} aria-current={!isBlog && !isAI ? 'page' : undefined}>Home</a>
           <a href={`${base}/#projects`}>Projects</a>
+          <a href={`${base}/ai/`} aria-current={isAI ? 'page' : undefined}>AI</a>
           <a href={`${base}/blog/`} aria-current={isBlog ? 'page' : undefined}>Blog</a>
           <button class="theme-toggle" type="button" aria-label="Switch theme">
             <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -92,12 +95,12 @@ const canonical = new URL(currentPath.endsWith('/') ? currentPath : `${currentPa
     </footer>
 
     <div class="chat-widget">
-      <div class="chat-panel" role="dialog" aria-label="Chat with Praveen's assistant" hidden>
+      <div class="chat-panel" role="dialog" aria-label="Chat with the site assistant" hidden>
         <div class="chat-header">
-          <span class="chat-avatar" aria-hidden="true">PY</span>
+          <span class="chat-avatar" aria-hidden="true">AI</span>
           <div>
-            <strong>Praveen's assistant</strong>
-            <span class="chat-status">replies instantly</span>
+            <strong>Site assistant</strong>
+            <span class="chat-status">online · instant answers</span>
           </div>
         </div>
         <div class="chat-messages" aria-live="polite"></div>
@@ -132,6 +135,23 @@ const canonical = new URL(currentPath.endsWith('/') ? currentPath : `${currentPa
         localStorage.setItem('theme', next);
       });
 
+      // Scroll reveals: add .visible as reveal elements enter the viewport.
+      const revealEls = document.querySelectorAll<HTMLElement>(
+        '.reveal, .reveal-left, .reveal-right, .reveal-zoom'
+      );
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              io.unobserve(entry.target);
+            }
+          }
+        },
+        { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+      );
+      revealEls.forEach((el) => io.observe(el));
+
       // Chat widget: scripted assistant with quick-reply questions.
       const chatWidget = document.querySelector('.chat-widget')!;
       const chatToggle = chatWidget.querySelector<HTMLButtonElement>('.chat-toggle')!;
@@ -151,8 +171,13 @@ const canonical = new URL(currentPath.endsWith('/') ? currentPath : `${currentPa
           links: false,
         },
         {
+          q: 'Does he use AI?',
+          a: 'Daily. AI coding tools like Claude Code and GitHub Copilot are part of his workflow for design, coding and review — the AI page on this site covers exactly how.',
+          links: false,
+        },
+        {
           q: 'Which technologies?',
-          a: 'C# / .NET, Angular & TypeScript, SQL Server and Oracle — with Azure DevOps for delivery.',
+          a: 'C# / .NET, Angular & TypeScript, SQL Server and Oracle — with Azure DevOps for delivery, and AI-assisted development in the daily loop.',
           links: false,
         },
         {
@@ -223,7 +248,7 @@ const canonical = new URL(currentPath.endsWith('/') ? currentPath : `${currentPa
           const typing = showTyping();
           setTimeout(() => {
             typing.remove();
-            addMsg("Hi, I'm Praveen's site assistant. Pick a question below and I'll fill you in.", 'bot');
+            addMsg("Hi — I'm the site assistant. Pick a question below and I'll fill you in.", 'bot');
           }, 600);
         }
       };
