@@ -9,7 +9,7 @@ export async function GET(context) {
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
   return rss({
-    title: 'Praveen Kumar Yennam — Blog',
+    title: 'Praveen Kumar Yennam - Blog',
     description: 'Occasional notes on software development from Praveen Kumar Yennam.',
     site: context.site,
     items: posts.map((post) => ({

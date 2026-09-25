@@ -27,7 +27,7 @@ const canonical = new URL(currentPath.endsWith('/') ? currentPath : `${currentPa
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href={`${base}/favicon.svg`} type="image/svg+xml" />
-    <link rel="alternate" type="application/rss+xml" title="Praveen Kumar Yennam — Blog" href={`${base}/rss.xml`} />
+    <link rel="alternate" type="application/rss+xml" title="Praveen Kumar Yennam - Blog" href={`${base}/rss.xml`} />
     <title>{title}</title>
     <meta property="og:type" content={pubDate ? 'article' : 'website'} />
     <meta property="og:title" content={title} />
@@ -117,16 +117,27 @@ const canonical = new URL(currentPath.endsWith('/') ? currentPath : `${currentPa
     </div>
 
     <script>
-      // Scroll-linked state: progress hairline and header shadow.
+      // Reading progress: CSS scroll-driven animation where supported (see
+      // global.css); this passive listener is only the fallback path.
+      if (!CSS.supports('animation-timeline: scroll()')) {
+        const onScroll = () => {
+          const doc = document.documentElement;
+          const max = doc.scrollHeight - window.innerHeight;
+          doc.style.setProperty('--progress', String(max > 0 ? window.scrollY / max : 0));
+        };
+        addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+      }
+
+      // Header shadow: a 1px sentinel at the top of the page leaves the
+      // viewport as soon as the user scrolls; no scroll listener needed.
       const header = document.querySelector('.site-header');
-      const onScroll = () => {
-        const doc = document.documentElement;
-        const max = doc.scrollHeight - window.innerHeight;
-        doc.style.setProperty('--progress', String(max > 0 ? window.scrollY / max : 0));
-        header?.classList.toggle('scrolled', window.scrollY > 8);
-      };
-      addEventListener('scroll', onScroll, { passive: true });
-      onScroll();
+      const sentinel = document.createElement('div');
+      sentinel.style.cssText = 'position:absolute;top:0;left:0;height:1px;width:1px;pointer-events:none;';
+      document.body.prepend(sentinel);
+      new IntersectionObserver(([entry]) => {
+        header?.classList.toggle('scrolled', !entry.isIntersecting);
+      }).observe(sentinel);
 
       // Theme toggle: flip the data-theme attribute and remember the choice.
       document.querySelector('.theme-toggle')?.addEventListener('click', () => {
@@ -167,22 +178,22 @@ const canonical = new URL(currentPath.endsWith('/') ? currentPath : `${currentPa
         },
         {
           q: "What's his experience?",
-          a: 'Over 18 years across HR & payroll platforms, government systems and retail point-of-sale — from engineer to lead developer and solution architect, with an MBA in IT Enterprise Management.',
+          a: 'Over 18 years across HR & payroll platforms, government systems and retail point-of-sale, from engineer to lead developer and solution architect, with an MBA in IT Enterprise Management.',
           links: false,
         },
         {
           q: 'Does he use AI?',
-          a: 'Daily. AI coding tools like Claude Code and GitHub Copilot are part of his workflow for design, coding and review — the AI page on this site covers exactly how.',
+          a: 'Daily. AI coding tools like Claude Code and GitHub Copilot are part of his workflow for design, coding and review. The AI page on this site covers exactly how.',
           links: false,
         },
         {
           q: 'Which technologies?',
-          a: 'C# / .NET, Angular & TypeScript, SQL Server and Oracle — with Azure DevOps for delivery, and AI-assisted development in the daily loop.',
+          a: 'C# / .NET, Angular & TypeScript, SQL Server and Oracle, with Azure DevOps for delivery and AI-assisted development in the daily loop.',
           links: false,
         },
         {
           q: 'How do I get in touch?',
-          a: 'Email is the quickest way — or connect on LinkedIn:',
+          a: 'Email is the quickest way, or connect on LinkedIn:',
           links: true,
         },
       ];
@@ -248,7 +259,7 @@ const canonical = new URL(currentPath.endsWith('/') ? currentPath : `${currentPa
           const typing = showTyping();
           setTimeout(() => {
             typing.remove();
-            addMsg("Hi — I'm the site assistant. Pick a question below and I'll fill you in.", 'bot');
+            addMsg("Hi, I'm the site assistant. Pick a question below and I'll fill you in.", 'bot');
           }, 600);
         }
       };

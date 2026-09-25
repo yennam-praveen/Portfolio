@@ -11,7 +11,7 @@ steps:
 ## 1. Create a Markdown file
 
 Add a new file in `src/content/blog/`, for example `my-new-post.md`. The file
-name becomes the URL — this one is `writing-a-new-post.md`, so it lives at
+name becomes the URL. This one is `writing-a-new-post.md`, so it lives at
 `/blog/writing-a-new-post/`.
 
 ## 2. Add the frontmatter
@@ -28,7 +28,7 @@ pubDate: 2026-08-12
 
 ## 3. Write, then check it locally
 
-Everything after the frontmatter is normal Markdown — headings, lists, links,
+Everything after the frontmatter is normal Markdown: headings, lists, links,
 code blocks. To preview, run:
 
 ```
